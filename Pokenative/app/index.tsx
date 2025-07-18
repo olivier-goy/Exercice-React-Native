@@ -5,12 +5,12 @@ import { ActivityIndicator, FlatList, Image, StyleSheet, View } from "react-nati
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PokemonCard } from './pokemon/constants/pokemon/PokemonCard';
 import { getPokemonId } from './pokemon/functions/pokemon';
-import { useFetchQuery } from './pokemon/hooks/useFetchQuery';
+import { useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
 
 export default function Index() {
   const colors = useThemeColors();
-  const {data, isFetching} = useFetchQuery("/pokemon?limit=21")
-  const pokemons = data?.results ?? []
+  const {data, isFetching, fetchNextPage} = useInfinitFetchQuery("/pokemon?limit=21")
+  const pokemons = data?.pages.flatMap(page => page.results) ?? []
   
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: colors.tint}]}>
@@ -27,6 +27,7 @@ export default function Index() {
         ListFooterComponent={
           isFetching ? <ActivityIndicator color={colors.tint} /> : null
         }
+        onEndReached={() => fetchNextPage()}
         renderItem={({item}) => <PokemonCard id={getPokemonId(item.url)} name={item.name} style={{flex: 1/3}}/>} keyExtractor={(item) => item.url}/>
       </Card>
     </SafeAreaView>
