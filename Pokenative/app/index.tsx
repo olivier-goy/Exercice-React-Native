@@ -14,15 +14,23 @@ import { useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
 export default function Index() {
   const colors = useThemeColors();
   const { data, isFetching, fetchNextPage } = useInfinitFetchQuery("/pokemon?limit=21");
-  const [search, setSearch] = useState(" ");
+  const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<"id" | "name">("id");
   const pokemons = data?.pages.flatMap(page => page.results.map(result => ({name: result.name, id: getPokemonId(result.url)}))) ?? [];
-  const filteredPokemons = [...(search ? pokemons.filter(p => p.name.includes(search.toLowerCase()) || p.id.toString() === search) : pokemons)].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1) )
-  return (
+  const filteredPokemons = [
+    ...(search 
+      ? pokemons.filter(
+        (p) => 
+          p.name.includes(search.toLowerCase()) || 
+        p.id.toString() === search,
+      ) 
+      : pokemons),
+    ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
+  return (    
     <SafeAreaView style={[styles.container, { backgroundColor: colors.tint }]}>
       <Row style={styles.header} gap={16}>
         <Image source={require("@/assets/images/pokeball.png")} width={24} height={24} />
-        <ThemedText variant="headline" color="grayWhite">Pokédex</ThemedText>
+        <ThemedText variant="headline" color="grayWhite">Pokédex</ThemedText>        
       </Row>
       <Row gap={16}>
         <SearchBar value={search} onChange={setSearch} />
