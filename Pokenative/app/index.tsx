@@ -1,12 +1,12 @@
 import { useThemeColors } from '@/app/pokemon/hooks/useThemeColors';
 import { Card } from '@/components/Card';
+import { RootView } from '@/components/RootView';
 import { Row } from '@/components/Row';
 import { SearchBar } from '@/components/SearchBar';
 import { SortBottom } from '@/components/SortButton';
 import { ThemedText } from '@/components/ThemedText';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { PokemonCard } from './pokemon/constants/pokemon/PokemonCard';
 import { getPokemonId } from './pokemon/functions/pokemon';
 import { useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
@@ -28,12 +28,12 @@ export default function Index() {
     ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
     
   return (    
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.tint }]}>
+    <RootView>
       <Row style={styles.header} gap={16}>
         <Image source={require("@/assets/images/pokeball.png")} width={24} height={24} />
         <ThemedText variant="headline" color="grayWhite">Pokédex</ThemedText>        
       </Row>
-      <Row gap={16}>
+      <Row gap={16} style={styles.form}>
         <SearchBar value={search} onChange={setSearch} />
         <SortBottom value={sortKey} onChange={setSortKey} />
       </Row>
@@ -49,7 +49,7 @@ export default function Index() {
           onEndReached={search ? undefined : () => fetchNextPage()}
           renderItem={({ item }) => <PokemonCard id={item.id} name={item.name} style={{ flex: 1 / 3 }} />} keyExtractor={(item) => item.id.toString()} />
       </Card>
-    </SafeAreaView>
+    </RootView>
   );
 }
 
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingBottom: 8,
   },
   body: {
     flex: 1,
@@ -71,5 +71,8 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 12,
+  },
+  form: {
+    paddingHorizontal: 12,
   }
 });
