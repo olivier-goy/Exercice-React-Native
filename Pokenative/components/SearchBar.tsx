@@ -5,10 +5,10 @@ import { Row } from "./Row";
 type Props = {
     value: string,
     onChange: (s: string) => void,
-}
+};
 
 export function SearchBar({value, onChange}: Props) {
-    const colors = useThemeColors()
+    const colors = useThemeColors();
     return (
         <Row gap={8} style={[styles.wrapper, { backgroundColor: colors.grayWhite }]}>
             <Image 
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
         fontSize: 11,
         lineHeight: 16,
     }
-})
+});

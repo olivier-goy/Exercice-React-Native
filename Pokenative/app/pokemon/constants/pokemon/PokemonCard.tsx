@@ -8,7 +8,7 @@ type Props = {
     style?: ViewStyle,
     id: number,
     name: string,
-}
+};
 
 export function PokemonCard({ style, id, name }: Readonly<Props>) {
     const colors = useThemeColors()
@@ -31,7 +31,7 @@ export function PokemonCard({ style, id, name }: Readonly<Props>) {
     </Link>
     
 
-}
+};
 
 const styles = StyleSheet.create({
     card: {

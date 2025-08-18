@@ -25,7 +25,8 @@ export default function Index() {
         p.id.toString() === search,
       ) 
       : pokemons),
-    ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1))
+    ].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
+    
   return (    
     <SafeAreaView style={[styles.container, { backgroundColor: colors.tint }]}>
       <Row style={styles.header} gap={16}>
@@ -71,4 +72,4 @@ const styles = StyleSheet.create({
   list: {
     padding: 12,
   }
-})
+});

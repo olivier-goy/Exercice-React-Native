@@ -33,4 +33,4 @@ export const Colors = {
         steel: "#B7B9D0",
         water: "#6493EB",
     }
-}
+};

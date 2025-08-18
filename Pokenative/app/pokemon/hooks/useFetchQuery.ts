@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-const endpoint = "https://pokeapi.co/api/v2"
+const endpoint = "https://pokeapi.co/api/v2";
 
 type API = {
     '/pokemon?limit=21': {
@@ -8,7 +8,7 @@ type API = {
         next: string | null,
         results: {name: string, url: string}[],
     }
-}
+};
 
 export function useFetchQuery<T extends keyof API>(path: T) {
     return useQuery({
@@ -23,7 +23,7 @@ export function useFetchQuery<T extends keyof API>(path: T) {
             }).then(result => result.json() as Promise<API[T]>) 
         }
     })
-}
+};
 
 export function useInfinitFetchQuery<T extends keyof API>(path: T) {
     return useInfiniteQuery({
@@ -44,8 +44,8 @@ export function useInfinitFetchQuery<T extends keyof API>(path: T) {
             return null
         }
     })
-}
+};
 
 function wait (duration: number) {
     return new Promise(resolve => setTimeout(resolve, duration * 1000))
-}
+};
