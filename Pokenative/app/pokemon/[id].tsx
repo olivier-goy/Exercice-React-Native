@@ -1,9 +1,11 @@
 import { Colors } from "@/app/pokemon/constants/Colors";
+import { Card } from "@/components/Card";
 import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { router, useLocalSearchParams } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { getPokemonArtWork } from "./functions/pokemon";
 import { useFetchQuery } from "./hooks/useFetchQuery";
 import { useThemeColors } from "./hooks/useThemeColors";
 
@@ -16,7 +18,7 @@ export default function Pokemon() {
     const colorType = mainType ? Colors.type[mainType] : colors.tint;
 
     return (
-        <RootView style={{backgroundColor: colorType}}>
+        <RootView style={{ backgroundColor: colorType }}>
             <View>
                 <Image style={styles.pokeball} source={require("@/assets/images/pokeball_big.png")} width={208} height={208} />
                 <Row style={styles.header}>
@@ -30,6 +32,19 @@ export default function Pokemon() {
                         #{params.id.padStart(3, "0")}
                     </ThemedText>
                 </Row>
+                <View style={styles.body}>
+                <Image
+                    style={styles.artWork}
+                    source={{
+                        uri: getPokemonArtWork(params.id)
+                    }}
+                    width={200}
+                    height={200}
+                />
+                <Card style={styles.card}>
+                    <ThemedText>Hello world</ThemedText>
+                </Card>
+                </View>
                 <Text>Pokemon {params.id}</Text>
             </View>
         </RootView>
@@ -45,5 +60,18 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 8,
         top: 8,
-    }
+    },
+    artWork: {
+        position: "absolute",
+        alignSelf: "center",
+        marginTop: -140,
+        zIndex: 2,
+    },
+    body: {
+        marginTop: 144,
+    },
+    card: {
+        paddingHorizontal: 20,
+        paddingTop: 60,
+    },
 })
