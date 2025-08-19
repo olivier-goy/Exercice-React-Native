@@ -1,6 +1,7 @@
 import { Colors } from "@/app/pokemon/constants/Colors";
 import { Card } from "@/components/Card";
 import { PokemonSpec } from "@/components/pokemon/PokemonSpec";
+import { PokemonStat } from "@/components/pokemon/PokemonStat";
 import { PokemonType } from "@/components/pokemon/PokemonType";
 import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
@@ -60,6 +61,14 @@ export default function Pokemon() {
 
                         {/* Stats */}
                         <ThemedText style={{ color: colorType }} variant="subtitle1">Bases Stats</ThemedText>
+
+                        <View style={{alignSelf: "stretch"}}>
+                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                        </View>
                     </Card>
                 </View>
                 <Text>Pokemon {params.id}</Text>
