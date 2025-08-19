@@ -2,8 +2,8 @@ import { Card } from "@/components/Card";
 import { ThemedText } from "@/components/ThemedText";
 import { Link } from "expo-router";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { getPokemonArtWork } from "../../functions/pokemon";
-import { useThemeColors } from "../../hooks/useThemeColors";
+import { getPokemonArtWork } from "../../app/pokemon/functions/pokemon";
+import { useThemeColors } from "../../app/pokemon/hooks/useThemeColors";
 
 type Props = {
     style?: ViewStyle,

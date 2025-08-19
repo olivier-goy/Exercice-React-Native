@@ -7,7 +7,7 @@ import { SortBottom } from '@/components/SortButton';
 import { ThemedText } from '@/components/ThemedText';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet } from "react-native";
-import { PokemonCard } from './pokemon/constants/pokemon/PokemonCard';
+import { PokemonCard } from '../components/pokemon/PokemonCard';
 import { getPokemonId } from './pokemon/functions/pokemon';
 import { useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
 
