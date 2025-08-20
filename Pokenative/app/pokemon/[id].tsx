@@ -7,7 +7,8 @@ import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { router, useLocalSearchParams } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import Animated, { useSharedValue } from "react-native-reanimated";
 import { formatSize, formatWeight, getPokemonArtWork } from "./functions/pokemon";
 import { useFetchQuery } from "./hooks/useFetchQuery";
 import { useThemeColors } from "./hooks/useThemeColors";
@@ -21,7 +22,8 @@ export default function Pokemon() {
     const mainType = pokemon?.types?.[0].type.name;
     const colorType = mainType ? Colors.type[mainType] : colors.tint;
     const types = pokemon?.types ?? [];
-    const bio = species?.flavor_text_entries?.find(({language}) => language.name === "en")?.flavor_text.replaceAll("\n", ". ")
+    const bio = species?.flavor_text_entries?.find(({ language }) => language.name === "en")?.flavor_text.replaceAll("\n", ". ");
+    const top = useSharedValue(140);
 
     return (
         <RootView style={{ backgroundColor: colorType }}>
@@ -34,13 +36,15 @@ export default function Pokemon() {
                         </Pressable>
                         <ThemedText color="grayWhite" variant="headline" style={{ textTransform: "capitalize" }}>{pokemon?.name}</ThemedText>
                     </Row>
-                    <ThemedText color="grayWhite" variant="subtitle2">
-                        #{params.id.padStart(3, "0")}
-                    </ThemedText>
+                    <Pressable onPress={() => (top.value = 0)}>
+                        <ThemedText color="grayWhite" variant="subtitle2">
+                            #{params.id.padStart(3, "0")}
+                        </ThemedText>
+                    </Pressable>
                 </Row>
                 <View style={styles.body}>
-                    <Image
-                        style={styles.artWork}
+                    <Animated.Image
+                        style={{ ...styles.artWork, top: top }}
                         source={{
                             uri: getPokemonArtWork(params.id)
                         }}
@@ -62,16 +66,11 @@ export default function Pokemon() {
                         {/* Stats */}
                         <ThemedText style={{ color: colorType }} variant="subtitle1">Bases Stats</ThemedText>
 
-                        <View style={{alignSelf: "stretch"}}>
-                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
-                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
-                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
-                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
-                            <PokemonStat name={"HP"} value={45} color={colorType}></PokemonStat>
+                        <View style={{ alignSelf: "stretch" }}>
+                            {pokemon?.stats.map(stat => <PokemonStat key={stat.stat.name} name={stat.stat.name} value={stat.base_stat} color={colorType} />)}
                         </View>
                     </Card>
                 </View>
-                <Text>Pokemon {params.id}</Text>
             </View>
         </RootView>
     )
@@ -99,6 +98,7 @@ const styles = StyleSheet.create({
     card: {
         paddingHorizontal: 20,
         paddingTop: 60,
+        paddingBottom: 20,
         gap: 16,
         alignItems: "center",
     },
