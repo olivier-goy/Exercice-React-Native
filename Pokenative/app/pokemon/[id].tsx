@@ -6,10 +6,10 @@ import { PokemonType } from "@/components/pokemon/PokemonType";
 import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
+import { Audio } from "expo-av";
 import { router, useLocalSearchParams } from "expo-router";
 import { Image, Pressable, StyleSheet, View } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
-import { formatSize, formatWeight, getPokemonArtWork } from "./functions/pokemon";
+import { basePokemonStats, formatSize, formatWeight, getPokemonArtWork } from "./functions/pokemon";
 import { useFetchQuery } from "./hooks/useFetchQuery";
 import { useThemeColors } from "./hooks/useThemeColors";
 
@@ -23,10 +23,20 @@ export default function Pokemon() {
     const colorType = mainType ? Colors.type[mainType] : colors.tint;
     const types = pokemon?.types ?? [];
     const bio = species?.flavor_text_entries?.find(({ language }) => language.name === "en")?.flavor_text.replaceAll("\n", ". ");
-    const top = useSharedValue(140);
+    const stats = pokemon?.stats ?? basePokemonStats;
+    const onImagePress = async () => {
+        const cry = pokemon?.cries.latest;
+        if(!cry) {
+            return;
+        }
+        const {sound} = await Audio.Sound.createAsync({
+            uri: cry
+        }, {shouldPlay: true});
+        sound.playAsync();
+    }
 
     return (
-        <RootView style={{ backgroundColor: colorType }}>
+        <RootView backgroundColor={colorType}>
             <View>
                 <Image style={styles.pokeball} source={require("@/assets/images/pokeball_big.png")} width={208} height={208} />
                 <Row style={styles.header}>
@@ -36,23 +46,23 @@ export default function Pokemon() {
                         </Pressable>
                         <ThemedText color="grayWhite" variant="headline" style={{ textTransform: "capitalize" }}>{pokemon?.name}</ThemedText>
                     </Row>
-                    <Pressable onPress={() => (top.value = 0)}>
-                        <ThemedText color="grayWhite" variant="subtitle2">
-                            #{params.id.padStart(3, "0")}
-                        </ThemedText>
-                    </Pressable>
+                    <ThemedText color="grayWhite" variant="subtitle2">
+                        #{params.id.padStart(3, "0")}
+                    </ThemedText>
                 </Row>
                 <View style={styles.body}>
-                    <Animated.Image
-                        style={{ ...styles.artWork, top: top }}
-                        source={{
-                            uri: getPokemonArtWork(params.id)
-                        }}
-                        width={200}
-                        height={200}
-                    />
+                    <Row style={styles.rowImage}>
+                        <Pressable onPress={onImagePress}>
+                            <Image
+                                style={styles.artWork}
+                                source={{ uri: getPokemonArtWork(params.id) }}
+                                width={200}
+                                height={200}
+                            />
+                        </Pressable>
+                    </Row>
                     <Card style={styles.card}>
-                        <Row gap={16}>
+                        <Row gap={16} style={{ height: 20 }}>
                             {types.map(type => <PokemonType name={type.type.name} key={type.type.name} />)}
                         </Row>
                         <ThemedText style={{ color: colorType }} variant="subtitle1">About</ThemedText>
@@ -67,7 +77,7 @@ export default function Pokemon() {
                         <ThemedText style={{ color: colorType }} variant="subtitle1">Bases Stats</ThemedText>
 
                         <View style={{ alignSelf: "stretch" }}>
-                            {pokemon?.stats.map(stat => <PokemonStat key={stat.stat.name} name={stat.stat.name} value={stat.base_stat} color={colorType} />)}
+                            {stats.map(stat => <PokemonStat key={stat.stat.name} name={stat.stat.name} value={stat.base_stat} color={colorType} />)}
                         </View>
                     </Card>
                 </View>
@@ -86,11 +96,14 @@ const styles = StyleSheet.create({
         right: 8,
         top: 8,
     },
-    artWork: {
+    rowImage: {
         position: "absolute",
         alignSelf: "center",
         marginTop: -140,
         zIndex: 2,
+    },
+    artWork: {
+
     },
     body: {
         marginTop: 144,

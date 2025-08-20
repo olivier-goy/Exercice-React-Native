@@ -1,5 +1,7 @@
 import { useThemeColors } from "@/app/pokemon/hooks/useThemeColors";
+import { useEffect } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Row } from "../Row";
 import { ThemedText } from "../ThemedText";
 
@@ -21,6 +23,21 @@ function startShortName(name: string): string {
 
 export function PokemonStat ({style, color, name, value, ...rest}: Props) {
     const colors = useThemeColors();
+    const sharedValue = useSharedValue(value);
+    const barInnerStyle = useAnimatedStyle(() => {
+        return {
+            flex: sharedValue.value
+        }
+    })
+    const barBackgroundStyle = useAnimatedStyle(() => {
+        return {
+            flex: 255 - sharedValue.value
+        }
+    })
+
+    useEffect(() => {
+        sharedValue.value = withSpring(value);
+    }, [value]);
     return(
         <Row gap={8} style={[style, styles.root]} {...rest}>
             <View style={[styles.name, {borderColor: colors.grayLight}]}>
@@ -32,8 +49,8 @@ export function PokemonStat ({style, color, name, value, ...rest}: Props) {
                 <ThemedText>{value.toString().padStart(3, "0")}</ThemedText>
             </View>
             <Row style={styles.bar}>
-                <View style={[styles.barInner, {flex: value, backgroundColor: color}]}></View>
-                <View style={[styles.barBackground, {flex: 255 - value, backgroundColor: color}]}></View>
+                <Animated.View style={[styles.barInner, { backgroundColor: color }, barInnerStyle]}></Animated.View>
+                <Animated.View style={[styles.barBackground, barBackgroundStyle, {backgroundColor: color}]}></Animated.View>
             </Row>
         </Row>
     )
