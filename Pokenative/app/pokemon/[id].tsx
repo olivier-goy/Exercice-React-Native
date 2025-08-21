@@ -47,7 +47,7 @@ export default function Pokemon() {
     const isLast = id === 151;
 
     return (
-        <RootView key={params.id} backgroundColor={colorType}>
+        <RootView backgroundColor={colorType}>
             <View>
                 <Image style={styles.pokeball} source={require("@/assets/images/pokeball_big.png")} width={208} height={208} />
                 <Row style={styles.header}>
@@ -104,6 +104,7 @@ export default function Pokemon() {
     )
 }
 
+
 const styles = StyleSheet.create({
     header: {
         margin: 20,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     rowImage: {
         position: "absolute",
         marginTop: -140,
-        zIndex: 1,
+        zIndex: 2,
         justifyContent: "space-between",
         left: 0,
         right: 0,
