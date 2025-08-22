@@ -27,7 +27,20 @@ export default function Pokemon() {
 
     const onPageScrollStateChanged = (e: { nativeEvent: { pageScrollState: string } }) => {
 
+        console.log(id, offset.current);
+        
+
         if (e.nativeEvent.pageScrollState !== "idle") {
+            return;
+        }
+        if (id === 1 && offset.current === -1) {
+            offset.current = 0;
+            pager.current?.setPageWithoutAnimation(1);
+            return;
+        }
+        if (id === 151 && offset.current === 1) {
+            offset.current = 0;
+            pager.current?.setPageWithoutAnimation(1);
             return;
         }
         if (offset.current === -1 && id === 2) {
@@ -46,8 +59,6 @@ export default function Pokemon() {
     const onNext = () => {
         pager.current?.setPage(2 + offset.current);    
     }
-
-
     const onPrevious = () => {
         pager.current?.setPage(0);
     }
