@@ -9,17 +9,23 @@ import { useState } from 'react';
 import { ActivityIndicator, FlatList, Image, StyleSheet } from "react-native";
 import { PokemonCard } from '../components/pokemon/PokemonCard';
 import { getPokemonId } from './pokemon/functions/pokemon';
-import { useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
+import { useFetchQuery, useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
 
 export default function Index() {
   const colors = useThemeColors();
+
+  const { data: allData } = useFetchQuery("/pokemon?limit=151");
   const { data, isFetching, fetchNextPage } = useInfinitFetchQuery("/pokemon?limit=21");
+
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<"id" | "name">("id");
+
+  const allPokemons = allData?.results.map(r => ({name: r.name, id: getPokemonId(r.url)})) ?? [];
   const pokemons = data?.pages.flatMap(page => page.results.map(result => ({name: result.name, id: getPokemonId(result.url)}))) ?? [];
+
   const filteredPokemons = [
     ...(search 
-      ? pokemons.filter(
+      ? allPokemons.filter(
         (p) => 
           p.name.includes(search.toLowerCase()) || 
         p.id.toString() === search,

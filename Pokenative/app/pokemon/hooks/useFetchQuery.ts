@@ -4,41 +4,46 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const endpoint = "https://pokeapi.co/api/v2";
 
 type API = {
-    '/pokemon?limit=21': {
-        count: number,
-        next: string | null,
-        results: {name: string, url: string}[],
-    };
-    "/pokemon/[id]": {
-        id: number;
+  "/pokemon?limit=151": {
+    count: number;
+    next: string | null;
+    results: { name: string; url: string }[];
+  };
+  "/pokemon?limit=21": {
+    count: number;
+    next: string | null;
+    results: { name: string; url: string }[];
+  };
+  "/pokemon/[id]": {
+    id: number;
+    name: string;
+    url: string;
+    weight: number;
+    height: number;
+    moves: { move: { name: string } }[];
+    stats: {
+      base_stat: number;
+      stat: {
         name: string;
-        url: string;
-        weight: number;
-        height: number;
-        moves: {move: {name: string}}[];
-        stats: {
-            base_stat: number;
-            stat: {
-                name: string;
-            };
-        }[];
-        cries: {
-            latest: string;
-        };
-        types: {
-            type:{
-                name: keyof (typeof Colors)["type"];
-            }
-        }[];
+      };
+    }[];
+    cries: {
+      latest: string;
     };
-    "/pokemon-species/[id]": {
-        flavor_text_entries: {
-            flavor_text: string;
-            language: {
-                name: string;
-            }
-        }[]
-    }
+    types: {
+      type: {
+        name: keyof (typeof Colors)["type"];
+      };
+    }[];
+  };
+  "/pokemon-species/[id]": {
+    flavor_text_entries: {
+      flavor_text: string;
+      language: {
+        name: string;
+      };
+    }[];
+  };
 };
 
 export function useFetchQuery<T extends keyof API>(path: T, params?: Record<string, string | number>) {
@@ -73,8 +78,4 @@ export function useInfinitFetchQuery<T extends keyof API>(path: T) {
             return null
         }
     })
-};
-
-function wait (duration: number) {
-    return new Promise(resolve => setTimeout(resolve, duration * 1000))
 };
