@@ -25,10 +25,7 @@ export default function Pokemon() {
         offset.current = e.nativeEvent.position - 1
     };
 
-    const onPageScrollStateChanged = (e: { nativeEvent: { pageScrollState: string } }) => {
-
-        console.log(id, offset.current);
-        
+    const onPageScrollStateChanged = (e: { nativeEvent: { pageScrollState: string } }) => {        
 
         if (e.nativeEvent.pageScrollState !== "idle") {
             return;

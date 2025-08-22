@@ -23,8 +23,10 @@ export default function Index() {
   const allPokemons = allData?.results.map(r => ({name: r.name, id: getPokemonId(r.url)})) ?? [];
   const pokemons = data?.pages.flatMap(page => page.results.map(result => ({name: result.name, id: getPokemonId(result.url)}))) ?? [];
 
+  const cleanedSearch = search.trim();
+
   const filteredPokemons = [
-    ...(search 
+    ...(cleanedSearch 
       ? allPokemons.filter(
         (p) => 
           p.name.includes(search.toLowerCase()) || 
