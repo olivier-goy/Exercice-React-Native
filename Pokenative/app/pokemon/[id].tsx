@@ -123,7 +123,6 @@ function PokemonView({ id, onPrevious, onNext }: Props) {
 
                         <Pressable onPress={onImagePress}>
                             <Image
-                                style={styles.artWork}
                                 source={{ uri: getPokemonArtWork(id) }}
                                 width={200}
                                 height={200}
@@ -135,7 +134,7 @@ function PokemonView({ id, onPrevious, onNext }: Props) {
                         </Pressable>)}
                     </Row>
                     <Row gap={16} style={{ height: 20 }}>
-                        {types.map(type => <PokemonType name={type.type.name} key={type.type.name} />)}
+                        {types.map(type => <PokemonType key={type.type.name} name={type.type.name} />)}
                     </Row>
                     <ThemedText style={{ color: colorType }} variant="subtitle1">About</ThemedText>
                     <Row>
@@ -177,7 +176,6 @@ const styles = StyleSheet.create({
         right: 0,
         paddingHorizontal: 20,
     },
-    artWork: {},
     card: {
         marginTop: 144,
         paddingHorizontal: 20,
