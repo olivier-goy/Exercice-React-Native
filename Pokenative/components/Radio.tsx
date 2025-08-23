@@ -6,6 +6,7 @@ type Props = {
 }
 
 export function Radio({checked}: Props) {
+
     const colors = useThemeColors();
 
     return (
@@ -30,5 +31,4 @@ const styles = StyleSheet.create({
         width: 6,
         height: 6,
     },
-
 })

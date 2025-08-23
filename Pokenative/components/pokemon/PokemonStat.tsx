@@ -22,8 +22,10 @@ function startShortName(name: string): string {
 }
 
 export function PokemonStat ({style, color, name, value, ...rest}: Props) {
+
     const colors = useThemeColors();
     const sharedValue = useSharedValue(value);
+
     const barInnerStyle = useAnimatedStyle(() => {
         return {
             flex: sharedValue.value
@@ -38,6 +40,7 @@ export function PokemonStat ({style, color, name, value, ...rest}: Props) {
     useEffect(() => {
         sharedValue.value = withSpring(value);
     }, [value]);
+    
     return(
         <Row gap={8} style={[style, styles.root]} {...rest}>
             <View style={[styles.name, {borderColor: colors.grayLight}]}>

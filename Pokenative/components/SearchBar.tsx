@@ -8,8 +8,11 @@ type Props = {
 };
 
 export function SearchBar({value, onChange}: Props) {
+
     const colors = useThemeColors();
+
     const cleanedValue = value.includes(" ") ? value.replace(/\s+/g, "") : value;
+    
     return (
         <Row gap={8} style={[styles.wrapper, { backgroundColor: colors.grayWhite }]}>
             <Image 

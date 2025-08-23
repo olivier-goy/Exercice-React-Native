@@ -12,8 +12,11 @@ type Props = {
 };
 
 export function PokemonCard({ style, id, name }: Readonly<Props>) {
-    const colors = useThemeColors()
-    return <Link href={{pathname: "/pokemon/[id]", params: {id: id}}} asChild>
+
+    const colors = useThemeColors();
+
+    return (
+    <Link href={{pathname: "/pokemon/[id]", params: {id: id}}} asChild>
         <Pressable android_ripple={{color: colors.tint, foreground: true}} style={style}>
             <Card style={[styles.card]}>
                 <View style={[styles.shadow, { backgroundColor: colors.grayBackground }]} />
@@ -30,8 +33,7 @@ export function PokemonCard({ style, id, name }: Readonly<Props>) {
             </Card>
         </Pressable>
     </Link>
-    
-
+    )
 };
 
 const styles = StyleSheet.create({

@@ -12,6 +12,7 @@ import { getPokemonId } from './pokemon/functions/pokemon';
 import { useFetchQuery, useInfinitFetchQuery } from './pokemon/hooks/useFetchQuery';
 
 export default function Index() {
+  
   const colors = useThemeColors();
 
   const { data: allData } = useFetchQuery("/pokemon?limit=151");

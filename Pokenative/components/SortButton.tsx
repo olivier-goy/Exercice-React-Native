@@ -18,13 +18,18 @@ const options = [
 ] as const;
 
 export function SortBottom({ value, onChange }: Props) {
-    const buttonRef = useRef<View>(null)
+
     const colors = useThemeColors();
+
+    const buttonRef = useRef<View>(null);
+
     const [isModalVisible, setModalVisible] = useState(false);
+
     const [position, setPosition] = useState<null | {
         top: number,
         right: number,
     }>(null);
+
     const onButtonPress = () => {
         buttonRef.current?.measureInWindow((x, y , width, height) => {
             setPosition({
@@ -34,6 +39,7 @@ export function SortBottom({ value, onChange }: Props) {
             setModalVisible(true);
         });
     };
+    
     const onClose = () => {
         setModalVisible(false);
     };
@@ -42,11 +48,7 @@ export function SortBottom({ value, onChange }: Props) {
             <Pressable onPress={onButtonPress}>
                 <View ref={buttonRef} style={[styles.button, { backgroundColor: colors.grayWhite }]}>
                     <Image
-                        source={
-                            value === "id" ?
-                                require("@/assets/images/number.png") :
-                                require("@/assets/images/text_format.png")
-                        }
+                        source={value === "id" ? require("@/assets/images/number.png") : require("@/assets/images/text_format.png")}
                         width={16}
                         height={16}
                     />

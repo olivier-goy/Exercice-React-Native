@@ -79,13 +79,16 @@ type Props = {
 function PokemonView({ id, onPrevious, onNext }: Props) {
 
     const colors = useThemeColors();
+
     const { data: pokemon } = useFetchQuery("/pokemon/[id]", { id: id });
     const { data: species } = useFetchQuery("/pokemon-species/[id]", { id: id });
+
     const mainType = pokemon?.types?.[0].type.name;
     const colorType = mainType ? Colors.type[mainType] : colors.tint;
     const types = pokemon?.types ?? [];
     const bio = species?.flavor_text_entries?.find(({ language }) => language.name === "en")?.flavor_text.replaceAll("\n", ". ");
     const stats = pokemon?.stats ?? basePokemonStats;
+
     const onImagePress = async () => {
         const cry = pokemon?.cries.latest;
         if (!cry) {
@@ -96,6 +99,7 @@ function PokemonView({ id, onPrevious, onNext }: Props) {
         }, { shouldPlay: true });
         sound.playAsync();
     }
+    
     const isFirst = id === 1;
     const isLast = id === 151;
 

@@ -1,6 +1,7 @@
-import { Colors } from "@/app/pokemon/constants/Colors"
-import { useThemeColors } from "@/app/pokemon/hooks/useThemeColors"
-import { StyleSheet, Text, type TextProps } from "react-native"
+import { Colors } from "@/app/pokemon/constants/Colors";
+import { useThemeColors } from "@/app/pokemon/hooks/useThemeColors";
+import { StyleSheet, Text, type TextProps } from "react-native";
+
 
 const styles = StyleSheet.create({
     body3: {
@@ -39,7 +40,9 @@ type Props = TextProps & {
 }
 
 export function ThemedText ({variant, color, style, ...rest}: Props) {
+
     const colors = useThemeColors()
+
     return <Text style={[styles[variant ?? 'body3'], {color: colors[color ?? "grayDark"]}, style]} {...rest}/>
 }
 

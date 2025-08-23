@@ -9,8 +9,11 @@ type Props = ViewProps & {
 };
 
 export function RootView({ style, backgroundColor, ...rest }: Props) {
+
     const colors = useThemeColors();
+    
     const progress = useSharedValue(0);
+    
     const animatedStyle = useAnimatedStyle(() => {
         return {
             backgroundColor: interpolateColor(
